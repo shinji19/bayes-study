@@ -1,4 +1,7 @@
+pub mod dice;
 pub mod monty;
+mod pmf;
+
 use crate::bayes::monty::Monty;
 use std::collections::hash_map::Entry;
 use std::collections::hash_map::Entry::Occupied;
