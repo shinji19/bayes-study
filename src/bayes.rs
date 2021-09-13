@@ -1,4 +1,9 @@
+pub mod monty;
+use crate::bayes::monty::Monty;
+use std::collections::hash_map::Entry;
+use std::collections::hash_map::Entry::Occupied;
 use std::collections::HashMap;
+use std::option::Option;
 
 pub struct Pmf {
     map: HashMap<String, f64>,
@@ -11,14 +16,17 @@ impl Pmf {
         }
     }
 
-    pub fn set(&mut self, hypo: String, prob: f64) {
-        self.map.insert(hypo, prob);
+    pub fn set(&mut self, hypo: &str, prob: f64) {
+        match self.map.entry(hypo.to_string()) {
+            Occupied(_) => panic!("already set: {}", hypo),
+            Vacant => self.map.insert(hypo.to_string(), prob),
+        };
     }
 
-    pub fn multi(&mut self, hypo: String, factor: f64) {
-        match self.map.get_mut(&hypo) {
+    pub fn multi(&mut self, hypo: &str, factor: f64) {
+        match self.map.get_mut(hypo) {
             Some(x) => *x *= factor,
-            None => eprintln!("undefined hypos: {}", hypo),
+            None => panic!("undefined hypos: {}", hypo),
         }
     }
 
@@ -28,19 +36,18 @@ impl Pmf {
             total += value;
         }
         if total == 0.0 {
-            eprintln!("total is zero.");
+            panic!("total is zero.");
         }
         for (_, value) in &mut self.map {
             *value = *value / total;
         }
     }
 
-    pub fn prob(&self, hypo: String) -> f64 {
-        match self.map.get(&hypo) {
+    pub fn prob(&self, hypo: &str) -> f64 {
+        match self.map.get(hypo) {
             Some(x) => *x,
             None => {
-                eprintln!("undefined hypos: {}", hypo);
-                0.0
+                panic!("undefined hypos: {}", hypo);
             }
         }
     }
