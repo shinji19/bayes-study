@@ -20,7 +20,7 @@ where
     pub fn set(&mut self, hypo: T, prob: f64) {
         match self.map.entry(hypo) {
             Occupied(_) => panic!("already set: {}", hypo),
-            Vacant => self.map.insert(hypo, prob),
+            _vacant => self.map.insert(hypo, prob),
         };
     }
 

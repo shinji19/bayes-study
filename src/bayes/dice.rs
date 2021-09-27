@@ -1,5 +1,4 @@
 use crate::bayes::pmf::Pmf;
-use std::collections::HashMap;
 use std::fmt;
 
 pub struct Dice {

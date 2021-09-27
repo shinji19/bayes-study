@@ -1,5 +1,4 @@
 use crate::bayes::Pmf;
-use std::collections::HashMap;
 use std::fmt;
 
 pub struct Monty {

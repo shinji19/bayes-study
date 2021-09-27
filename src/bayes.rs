@@ -2,11 +2,8 @@ pub mod dice;
 pub mod monty;
 mod pmf;
 
-use crate::bayes::monty::Monty;
-use std::collections::hash_map::Entry;
 use std::collections::hash_map::Entry::Occupied;
 use std::collections::HashMap;
-use std::option::Option;
 
 pub struct Pmf {
     map: HashMap<String, f64>,
@@ -22,7 +19,7 @@ impl Pmf {
     pub fn set(&mut self, hypo: &str, prob: f64) {
         match self.map.entry(hypo.to_string()) {
             Occupied(_) => panic!("already set: {}", hypo),
-            Vacant => self.map.insert(hypo.to_string(), prob),
+            _vacant => self.map.insert(hypo.to_string(), prob),
         };
     }
 
